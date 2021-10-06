@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section id="hero">
+    <div class="hero container">
+        <div>
+          <h1 style="color:white; font-size:7rem;">Orders</h1>
+          <br>
+          {% if order_list %}
+            <ul>
+                {% for order in order_list %}
+                    <li><a href="{{ order.id }}">{{ order.car.owner }} {{ order.car.car_model }}</a></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p>No orders.</p>
+            {% endif %}
+        </div>
+    </div>
+  </section>
+
+{% endblock %}

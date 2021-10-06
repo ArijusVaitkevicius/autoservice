@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section id="hero">
+    <div class="hero container">
+        <div>
+          <h1 style="color:white; font-size:7rem;">Cars</h1>
+          <br>
+          <p style="color:white; font-size:5rem;">All cars in our service:</p>
+          <br>
+          {% for c in cars %}
+            <ul>
+              <li><a href="{% url 'car' c.id %}">{{c.car_owner}} {{c.car_model}}</a></li>
+            </ul>
+          {% endfor %}
+        </div>
+    </div>
+  </section>
+
+{% endblock %}

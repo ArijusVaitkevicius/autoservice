@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section id="hero">
+    <div class="hero container">
+        <div>
+          <h1 style="color:white; font-size:7rem;">Details: </h1>
+          <br>
+            <ul>
+                <li><strong>Owner: &nbsp;</strong>{{car.owner}}</li>
+                <li><strong>Model: &nbsp;</strong>{{car.car_model}}</li>
+                <li><strong>Licence plate: &nbsp;</strong>{{car.licence_plate}}</li>
+                <li><strong>VIN code: &nbsp;</strong>{{car.vin_code}}</li>
+            </ul>
+        </div>
+    </div>
+  </section>
+{% endblock %}

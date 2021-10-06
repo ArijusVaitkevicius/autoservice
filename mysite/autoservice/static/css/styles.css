@@ -203,6 +203,11 @@ li {
 
 /* Main */
 
+main li {
+    font-size: 3rem;
+    color: white;
+}
+
 #hero {
     background-image: url('http://www.automobiliuremontas.com/images/stiklu-keitimas.jpg');
     background-size: cover;
@@ -221,11 +226,6 @@ li {
     background-color: var(--background-color);
     opacity: .8;
     z-index: -1;
-}
-
-main li {
-    font-size: 3rem;
-    color: white;
 }
 
 #hero .hero {

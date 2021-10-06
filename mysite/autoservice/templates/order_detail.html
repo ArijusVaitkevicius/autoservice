@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section id="hero">
+    <div class="hero container">
+        <div>
+            <h1 style="color:white; font-size:7rem;">{{ order.car.owner }}</h1>
+            <br><hr><br>
+            <h4 style="color:white; font-size:3rem;"><strong>Date: &nbsp;</strong>{{ order.date }}</h4>
+            <h4 style="color:white; font-size:3rem;"><strong>Car: &nbsp;</strong>{{ order.car }}</h4>
+            <h4 style="color:white; font-size:3rem;"><strong>Status: &nbsp;</strong>{{ order.get_status_display }}</h4>
+            <br><hr><br>
+            {% for line in order.lines.all %}
+                <h2 style="color:white; font-size:2rem;">
+                    <strong>Service: &nbsp;</strong> {{ line.service.name }} |
+                    <strong>Price: &nbsp;</strong> {{ line.service.price }} |
+                    <strong>Quantity: &nbsp;</strong> {{ line.qty }} |
+                </h2>
+            {% endfor %}
+        </div>
+    </div>
+  </section>
+
+{% endblock %}
