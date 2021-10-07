@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import CarModel, Car, Order, OrderLine, Service
 from django.views import generic
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 def index(request):
@@ -19,9 +21,11 @@ def index(request):
 
 
 def cars(request):
-    all_cars = Car.objects.all()
+    paginator = Paginator(Car.objects.all(), 2)
+    page_number = request.GET.get('page')
+    paged_cars = paginator.get_page(page_number)
     context = {
-        'cars': all_cars
+        'cars': paged_cars
     }
     return render(request, 'cars.html', context=context)
 
@@ -33,9 +37,24 @@ def car(request, car_id):
 
 class OrderListView(generic.ListView):
     model = Order
+    paginate_by = 2
     template_name = 'order_list.html'
 
 
 class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'order_detail.html'
+
+
+def search(request):
+    """
+    paprasta paieška. query ima informaciją iš paieškos laukelio,
+    search_results prafiltruoja pagal įvestą tekstą knygų pavadinimus ir aprašymus.
+    Icontains nuo contains skiriasi tuo, kad icontains ignoruoja ar raidės
+    didžiosios/mažosios.
+    """
+    query = request.GET.get('query')
+    search_results = Car.objects.filter(
+        Q(owner__icontains=query) | Q(car_model__make__icontains=query) | Q(licence_plate__icontains=query) | Q(
+            vin_code__icontains=query))
+    return render(request, 'search.html', {'cars': search_results, 'query': query})
