@@ -21,6 +21,7 @@ class Car(models.Model):
     vin_code = models.CharField('VIN code', max_length=200)
     owner = models.CharField('Owner', max_length=200, null=True)
     year = models.IntegerField(null=True)
+    cover = models.ImageField('Cover', upload_to='covers', null=True)
 
     def __str__(self):
         return f"{self.owner}: {self.car_model}, {self.licence_plate}, {self.vin_code}"
