@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section id="hero">
+    <div class="hero container">
+
+      <p>You have successfully logged out!</p>
+      <a href="{% url 'login'%}">Login again.</a>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -11,10 +11,14 @@ def index(request):
     num_status = Order.objects.filter(status__exact='a').count()
     num_cars = Car.objects.count()
 
+    num_visits = request.session.get('num_visits', 1)
+    request.session['num_visits'] = num_visits + 1
+
     context = {
         'num_services': num_services,
         'num_status': num_status,
         'num_cars': num_cars,
+        'num_visits': num_visits,
     }
 
     return render(request, 'index.html', context=context)
@@ -58,3 +62,4 @@ def search(request):
         Q(owner__icontains=query) | Q(car_model__make__icontains=query) | Q(licence_plate__icontains=query) | Q(
             vin_code__icontains=query))
     return render(request, 'search.html', {'cars': search_results, 'query': query})
+
