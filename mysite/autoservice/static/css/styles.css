@@ -17,20 +17,6 @@ html {
     scroll-behavior: smooth;
 }
 
-img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
-
-p {
-    color: var(--background-color);
-    margin-top: 5px;
-    line-height: 2.5rem;
-    font-weight: 300;
-    letter-spacing: .05rem;
-}
-
 li {
     list-style: none;
 }
@@ -208,7 +194,7 @@ main li {
     color: white;
 }
 
-#hero {
+#bg {
     background-image: url('http://www.automobiliuremontas.com/images/stiklu-keitimas.jpg');
     background-size: cover;
     background-position: top left;
@@ -216,7 +202,7 @@ main li {
     z-index: 1;
 }
 
-#hero::after {
+#bg::after {
     content: '';
     position: absolute;
     left: 0;
@@ -228,11 +214,143 @@ main li {
     z-index: -1;
 }
 
-#hero .hero {
+#bg .bg {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 50px;
-    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#bg .bg h1 {
+    color:white;
+    font-size:5rem;
+}
+
+#bg .bg h2 {
+    color:white;
+    font-size:3rem;
+}
+
+#bg .bg h3 {
+    color:white;
+    font-size:2rem;
+}
+
+#bg .bg div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#bg .bg td{
+    color: white;
+}
+
+#bg .bg form {
+    display: flex;
+    display-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+strong {
+    color: var(--main-color);
+}
+
+hr {
+    width: 60vw;
+    margin: 2rem 0;
+}
+
+.card {
+    min-height: 340px;
+    margin: 0 4rem 4rem 0;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    inline-size: 340px;
+    overflow-wrap: break-word;
+    border: var(--main-color) solid 5px;
+}
+
+.card a {
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    padding-bottom: 2rem;
+}
+
+.card:hover a {
+    color: var(--main-color);
+}
+
+.card img {
+    height: 200px;
+    width: 300px;
+    border-radius: 30px;
+    object-fit: fill;
+}
+
+.pages ul {
+    display: flex;
+}
+
+.pages ul li {
+    margin: 1rem;
+    height:4rem;
+    width: 4rem;
+    background: var(--main-color);
+    line-height: 4rem;
+    text-align: center;
+    border-radius: 20%;
+}
+
+.pages ul li a {
+    font-size: 2rem;
+    color: white;
+}
+
+.pages ul li:hover {
+    background: white;
+}
+
+.pages ul li:hover a {
+    color: var(--main-color);
+}
+
+.pages ul .cur_page {
+    background:white;
+}
+
+.pages ul .cur_page a {
+    color:var(--background-color);
+}
+
+.details li {
+    margin-top: 2rem;
+}
+
+.orders ul li a {
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    padding-bottom: 2rem;
+}
+
+.orders ul li:hover a {
+    color: var(--main-color);
+}
+
+.orders ul li {
+    margin: 2rem;
 }
 
 /* End of Main */
