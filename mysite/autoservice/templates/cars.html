@@ -13,6 +13,7 @@
       {% else %}
         <img src="{% static 'img/no-img.jpg' %}" class="card-img-top">
       {% endif %}
+        <p class="description">{{ c.description | safe }}</p>
     </div>
     {% endfor %}
 </div>

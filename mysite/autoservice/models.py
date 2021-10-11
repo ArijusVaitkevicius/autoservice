@@ -1,7 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+from datetime import date
+from tinymce.models import HTMLField
 
-
-# Create your models here.
 
 class CarModel(models.Model):
     make = models.CharField('Make', max_length=200)
@@ -22,6 +23,7 @@ class Car(models.Model):
     owner = models.CharField('Owner', max_length=200, null=True)
     year = models.IntegerField(null=True)
     cover = models.ImageField('Cover', upload_to='covers', null=True)
+    description = HTMLField('Description', null=True)
 
     def __str__(self):
         return f"{self.owner}: {self.car_model}, {self.licence_plate}, {self.vin_code}"
@@ -32,8 +34,10 @@ class Car(models.Model):
 
 
 class Order(models.Model):
-    date = models.DateTimeField('Date', null=True, blank=True)
+    date = models.DateField('Date', null=True, blank=True)
     car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)
+    client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    due_back = models.DateField('Back_date', null=True, blank=True)
 
     ORDER_STATUS = (
         ('p', 'Patvirtinta'),
@@ -49,6 +53,12 @@ class Order(models.Model):
         default='p',
         help_text='Status',
     )
+
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
 
     def count_amount(self):
         return 0

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>My orders</h1>
+
+    {% if order_list %}
+    <ul>
+
+      {% for order in order_list %}
+      <li  style="{% if order.is_overdue %} color:red; {% endif %}">
+        <a href="{% url 'order-detail' order.car.pk %}">{{order.car.owner}}</a> ({{ order.due_back }})
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>At this time, you don't have any orders!</p>
+    {% endif %}
+{% endblock %}

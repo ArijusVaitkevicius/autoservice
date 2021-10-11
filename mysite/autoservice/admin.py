@@ -10,7 +10,7 @@ class OrderLineInline(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('car', 'date', 'count_amount')
+    list_display = ('car', 'date', 'client', 'due_back', 'count_amount')
     inlines = [OrderLineInline]
 
 

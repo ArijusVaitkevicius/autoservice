@@ -4,6 +4,7 @@ from .models import CarModel, Car, Order, OrderLine, Service
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def index(request):
@@ -63,3 +64,11 @@ def search(request):
             vin_code__icontains=query))
     return render(request, 'search.html', {'cars': search_results, 'query': query})
 
+
+class OrdersByUserListView(LoginRequiredMixin, generic.ListView):
+    model = Order
+    template_name = 'user_orders.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Order.objects.filter(client=self.request.user).filter(status__exact='v').order_by('due_back')

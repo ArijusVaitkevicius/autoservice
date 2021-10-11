@@ -244,11 +244,13 @@ main li {
     align-items: center;
 }
 
-#bg .bg td{
+#bg .bg .td_name{
     color: white;
+    font-weight: bold;
+    font-size: 2rem;
 }
 
-#bg .bg form {
+#bg .bg form div{
     display: flex;
     display-direction: column;
     justify-content: center;
@@ -264,6 +266,16 @@ strong {
 hr {
     width: 60vw;
     margin: 2rem 0;
+}
+
+.psw_link {
+    color: white;
+    font-weight: bold;
+    padding-bottom: 2rem;
+}
+
+.psw_link:hover {
+    color: var(--main-color);
 }
 
 .card {
@@ -297,6 +309,11 @@ hr {
     width: 300px;
     border-radius: 30px;
     object-fit: fill;
+}
+
+.card .description {
+    margin-top: 20px;
+    width: 340px;
 }
 
 .pages ul {
