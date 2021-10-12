@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
 from tinymce.models import HTMLField
+from PIL import Image
 
 
 class CarModel(models.Model):
@@ -23,7 +24,7 @@ class Car(models.Model):
     owner = models.CharField('Owner', max_length=200, null=True)
     year = models.IntegerField(null=True)
     cover = models.ImageField('Cover', upload_to='covers', null=True)
-    description = HTMLField('Description', null=True)
+    description = HTMLField('Description', blank=True, null=True)
 
     def __str__(self):
         return f"{self.owner}: {self.car_model}, {self.licence_plate}, {self.vin_code}"
@@ -60,10 +61,13 @@ class Order(models.Model):
             return True
         return False
 
-    def count_amount(self):
-        return 0
-
-    count_amount.short_description = 'Amount'
+    @property
+    def total(self):
+        order_lines = OrderLine.objects.filter(order=self.id)
+        total = 0
+        for line in order_lines:
+            total += line.service.price * line.qty
+        return total
 
     def __str__(self):
         return f'{self.date} {self.car}'
@@ -71,19 +75,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Order'
         verbose_name_plural = 'Orders'
-
-
-class OrderLine(models.Model):
-    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True, related_name='lines')
-    service = models.ForeignKey('Service', on_delete=models.SET_NULL, null=True)
-    qty = models.IntegerField('Quantity')
-
-    def __str__(self):
-        return f"{self.order}: {self.service}, {self.qty}"
-
-    class Meta:
-        verbose_name = 'Order Line'
-        verbose_name_plural = 'Order Lines'
 
 
 class Service(models.Model):
@@ -96,3 +87,47 @@ class Service(models.Model):
     class Meta:
         verbose_name = 'Service'
         verbose_name_plural = 'Services'
+
+
+class OrderLine(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True, related_name='lines')
+    service = models.ForeignKey('Service', on_delete=models.SET_NULL, null=True)
+    qty = models.IntegerField('Quantity')
+
+    @property
+    def line_total(self):
+        return self.service.price * self.qty
+
+    def __str__(self):
+        return f"{self.order}: {self.service}, {self.qty}"
+
+    class Meta:
+        verbose_name = 'Order Line'
+        verbose_name_plural = 'Order Lines'
+
+
+class OrderComment(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True, blank=True, related_name='comments')
+    commentator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    content = models.TextField('Comment', max_length=2000)
+
+    class Meta:
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    photo = models.ImageField(default="default.png", upload_to="profile_pics")
+
+    def __str__(self):
+        return f"{self.user.username} profile"
+
+    def save(self):
+        super().save()
+        img = Image.open(self.photo.path)
+        if img.height > 200 or img.width > 200:
+            output_size = (200, 200)
+            img.thumbnail(output_size)
+            img.save(self.photo.path)

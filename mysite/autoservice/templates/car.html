@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Details </h1>
-  <hr>
-    <ul class="details">
-        <li><strong>Owner: &nbsp;</strong>{{car.owner}}</li>
-        <li><strong>Model: &nbsp;</strong>{{car.car_model}}</li>
-        <li><strong>Licence plate: &nbsp;</strong>{{car.licence_plate}}</li>
-        <li><strong>VIN code: &nbsp;</strong>{{car.vin_code}}</li>
-    </ul>
+ {% load static %}
+    <div class="container car">
+        {% if car.cover %}
+          <img src="{{ car.cover.url }}" class="card-img-top" alt="...">
+        {% else %}
+          <img src="{% static 'img/no-img.jpg' %}" class="card-img-top">
+        {% endif %}
+        <h1><strong>Car Owner: </strong>{{ car.owner }}</h1>
+        <h1><strong>Car Model: </strong>{{ car.car_model }} ({{ car.year }})</h1>
+        <h4><strong>Licence plate: </strong>{{ car.licence_plate }}</h4>
+        <h4><strong>VIN code: </strong>{{ car.vin_code }}</h4>
+        <p>{{ car.description | safe }}</p>
+    </div>
 {% endblock %}

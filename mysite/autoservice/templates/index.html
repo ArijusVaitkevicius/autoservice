@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div>
-          <ul>
-            <li><strong>Services: </strong>{{ num_services }}</li>
-            <li><strong>Active status: </strong>{{ num_status }}</li>
-            <li><strong>Cars: </strong>{{ num_cars }}</li>
-            <li><strong>You are visiting here for the </strong>{{ num_visits }}<strong> time</strong></li>
-          </ul>
-    </div>
+    <h1>Welcome to Autoservice!</h1>
+    <br>
+    <h3>Autoservice statistics:</h3>
+    <ul>
+    <li><strong>Services: </strong>{{ num_services }}</li>
+    <li><strong>Active status: </strong>{{ num_status }}</li>
+    <li><strong>Cars: </strong>{{ num_cars }}</li>
+    <li><strong>You are visiting here for the </strong>{{ num_visits }}<strong> time</strong></li>
+    </ul>
 {% endblock %}

@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section id="hero">
-    <div class="hero container">
       <h1>Search results for "{{query}}" :</h1>
       </br>
       {% if cars %}
@@ -16,7 +14,4 @@
       {% else %}
         <p>Oops. Could not find anything :(</p>
       {% endif %}
-    </div>
-</section>
-
 {% endblock %}

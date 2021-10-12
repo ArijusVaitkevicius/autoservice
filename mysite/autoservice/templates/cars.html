@@ -2,35 +2,37 @@
 
 {% block content %}
 {% load static %}
-<h1>All cars in our service</h1>
-<hr>
-<div>
-    {% for c in cars %}
-    <div class="card">
-        <a href="{% url 'car' c.id %}">{{c.car_model}} <span>{{c.year}} m.</span> </a>
-      {% if c.cover %}
-        <img src="{{ c.cover.url }}" alt="car photo">
-      {% else %}
-        <img src="{% static 'img/no-img.jpg' %}" class="card-img-top">
-      {% endif %}
-        <p class="description">{{ c.description | safe }}</p>
-    </div>
+    <h1>All cars in our service</h1>
+    {% for car in cars %}
+    <div class="card mb-4 shadow-sm">
+        {% if car.cover %}
+          <img src="{{ car.cover.url }}" class="card-img-top" alt="...">
+        {% else %}
+          <img src="{% static 'img/no-img.jpg' %}" class="card-img-top">
+        {% endif %}
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">{{ car.car_model }}</h6>
+          <p class="card-text"><a href="{% url 'car' car.id %}">{{car.owner}} {{car.car_model}}</a></p>
+        </div>
+      </div>
     {% endfor %}
-</div>
-<div>
-    <nav class="pages" aria-label="...">
+<div class="container puslapiai">
+    <nav aria-label="...">
         {% if cars.has_other_pages %}
-            <ul>
+            <ul class="pagination pagination-sm justify-content-end">
                 {% for i in cars.paginator.page_range %}
                     {% if cars.number == i %}
-                        <li class="cur_page"><a href="">{{ i }}</a></li>
+                        <li class="page-item active">
+                            <a class="page-link" href="">{{ i }}</a>
+                        </li>
                     {% else %}
-                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
                     {% endif %}
                 {% endfor %}
             </ul>
         {% endif %}
     </nav>
 </div>
-
 {% endblock %}

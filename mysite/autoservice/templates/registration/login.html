@@ -14,24 +14,20 @@
 
 <form method="post" action="{% url 'login' %}">
   {% csrf_token %}
-  <div>
     <table>
       <tr>
-        <td class="td_name">Username: </td>
+        <td>Username: </td>
         <td>{{ form.username }}</td>
       </tr>
       <tr>
-        <td class="td_name">Password: </td>
+        <td>Password: </td>
         <td>{{ form.password }}</td>
       </tr>
     </table>
-  </div>
-  <div>
     <input type="submit" value="Login" />
     <input type="hidden" name="next" value="{{ next }}" />
-  </div>
 </form>
 
-<a href="{% url 'password_reset' %}" class="psw_link">Forgot your password?</a>
+<a href="{% url 'password_reset' %}">Forgot your password?</a>
 
 {% endblock %}

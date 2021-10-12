@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+    <h3>Registration</h3><br/>
+    <form method="post">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">User name</label>
+            <input name="username" type="text" class="form-control" id="username" aria-describedby="usernameHelp">
+            <small id="usernameHelp" class="form-text text-muted">Max 150 simbols.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">Only for password reset!</small>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input name="password" type="password" class="form-control" id="password" aria-describedby="pwdHelp">
+            <small id="pwdHelp" class="form-text text-muted">Minimum length is 8 characters. Must include at least one
+                letter (a–z) and one number (0–9).</small>
+        </div>
+        <div class="form-group">
+            <label for="password2">Re-Password</label>
+            <input name="password2" type="password" class="form-control" id="password2" aria-describedby="pwd2Help">
+        </div>
+        <button type="submit" class="btn btn-primary register-button">Confirm</button>
+    </form>
+    <p>Already have an account? <a href="/login"><strong>Login.</strong></a></p>
+</div>
+
+{% endblock %}

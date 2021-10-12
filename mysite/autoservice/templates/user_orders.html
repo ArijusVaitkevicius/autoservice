@@ -2,17 +2,14 @@
 
 {% block content %}
     <h1>My orders</h1>
-
     {% if order_list %}
-    <ul>
-
-      {% for order in order_list %}
-      <li  style="{% if order.is_overdue %} color:red; {% endif %}">
-        <a href="{% url 'order-detail' order.car.pk %}">{{order.car.owner}}</a> ({{ order.due_back }})
-      </li>
-      {% endfor %}
-    </ul>
-
+     <ul>
+        {% for order in order_list %}
+            <li>
+            <a class="{% if order.is_overdue %}text-danger{% endif %}" href="{% url 'order-detail' order.pk %}">{{ order.car }} ({{ order.due_date }})</a>
+            </li>
+        {% endfor %}
+      </ul>
     {% else %}
       <p>At this time, you don't have any orders!</p>
     {% endif %}

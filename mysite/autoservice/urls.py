@@ -9,5 +9,7 @@ urlpatterns = [
     path('orders/<int:pk>', views.OrderDetailView.as_view(), name='order-detail'),
     path('search/', views.search, name='search'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('myorders/', views.OrdersByUserListView.as_view(), name='my-orders')
+    path('myorders/', views.OrdersByUserListView.as_view(), name='my-orders'),
+    path('register/', views.register, name='register'),
+    path('profile/', views.profile, name='profile'),
 ]
