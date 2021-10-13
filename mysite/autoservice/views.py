@@ -3,7 +3,7 @@ from .models import CarModel, Car, Order, OrderLine, Service
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
@@ -63,10 +63,10 @@ class OrderDetailView(FormMixin, generic.DetailView):
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.id})
 
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super(OrderDetailView, self).get_context_data(**kwargs)
-    #     context['form'] = OrderCommentForm(initial={'order': self.object})
-    #     return context
+    def get_context_data(self, *args, **kwargs):
+        context = super(OrderDetailView, self).get_context_data(**kwargs)
+        context['form'] = OrderCommentForm(initial={'order': self.object})
+        return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -89,18 +89,43 @@ class OrdersByUserListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Order.objects.filter(client=self.request.user).filter(status__exact='v').order_by('due_back')
+        return Order.objects.filter(client=self.request.user).order_by('due_back')
 
 
 class OrderByUserCreateView(LoginRequiredMixin, generic.CreateView):
     model = Order
     fields = ['car', 'due_back']
     success_url = "/autoservice/orders/"
-    template_name = 'new_order_form.html'
+    template_name = 'order_form.html'
 
     def form_valid(self, form):
         form.instance.client = self.request.user
         return super().form_valid(form)
+
+
+class OrderByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = Order
+    fields = ['car', 'due_back']
+    success_url = "/autoservice/myorders/"
+    template_name = 'order_form.html'
+
+    def form_valid(self, form):
+        form.instance.client = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        order = self.get_object()
+        return self.request.user == order.client
+
+
+class OrderByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Order
+    success_url = "/autoservice/myorders/"
+    template_name = 'order_delete.html'
+
+    def test_func(self):
+        order = self.get_object()
+        return self.request.user == order.client
 
 
 def search(request):

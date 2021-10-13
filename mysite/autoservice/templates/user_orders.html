@@ -6,7 +6,11 @@
      <ul>
         {% for order in order_list %}
             <li>
-            <a class="{% if order.is_overdue %}text-danger{% endif %}" href="{% url 'order-detail' order.pk %}">{{ order.car }} ({{ order.due_date }})</a>
+                <a class="{% if order.is_overdue %}text-danger{% endif %}" href="{% url 'order-detail' order.pk %}">{{ order.car }} ({{ order.due_back }})</a>
+                {% if order.client == user %}
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'my-order-update' order.id %}">Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'my-order-delete' order.id %}">Delete</a>
+                {% endif %}
             </li>
         {% endfor %}
       </ul>
