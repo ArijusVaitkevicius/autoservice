@@ -63,10 +63,10 @@ class OrderDetailView(FormMixin, generic.DetailView):
     def get_success_url(self):
         return reverse('order-detail', kwargs={'pk': self.object.id})
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(OrderDetailView, self).get_context_data(**kwargs)
-        context['form'] = OrderCommentForm(initial={'order': self.object})
-        return context
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super(OrderDetailView, self).get_context_data(**kwargs)
+    #     context['form'] = OrderCommentForm(initial={'order': self.object})
+    #     return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -83,6 +83,26 @@ class OrderDetailView(FormMixin, generic.DetailView):
         return super(OrderDetailView, self).form_valid(form)
 
 
+class OrdersByUserListView(LoginRequiredMixin, generic.ListView):
+    model = Order
+    template_name = 'user_orders.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Order.objects.filter(client=self.request.user).filter(status__exact='v').order_by('due_back')
+
+
+class OrderByUserCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Order
+    fields = ['car', 'due_back']
+    success_url = "/autoservice/orders/"
+    template_name = 'new_order_form.html'
+
+    def form_valid(self, form):
+        form.instance.client = self.request.user
+        return super().form_valid(form)
+
+
 def search(request):
     """
     paprasta paieška. query ima informaciją iš paieškos laukelio,
@@ -95,15 +115,6 @@ def search(request):
         Q(owner__icontains=query) | Q(car_model__make__icontains=query) | Q(licence_plate__icontains=query) | Q(
             vin_code__icontains=query))
     return render(request, 'search.html', {'cars': search_results, 'query': query})
-
-
-class OrdersByUserListView(LoginRequiredMixin, generic.ListView):
-    model = Order
-    template_name = 'user_orders.html'
-    paginate_by = 10
-
-    def get_queryset(self):
-        return Order.objects.filter(client=self.request.user).filter(status__exact='v').order_by('due_back')
 
 
 @csrf_protect

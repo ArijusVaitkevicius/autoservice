@@ -35,7 +35,7 @@ class Car(models.Model):
 
 
 class Order(models.Model):
-    date = models.DateField('Date', null=True, blank=True)
+    date = models.DateField('Date', auto_now_add=True, null=True, blank=True)
     car = models.ForeignKey('Car', on_delete=models.SET_NULL, null=True)
     client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     due_back = models.DateField('Back_date', null=True, blank=True)
@@ -124,8 +124,8 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username} profile"
 
-    def save(self):
-        super().save()
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         img = Image.open(self.photo.path)
         if img.height > 200 or img.width > 200:
             output_size = (200, 200)
