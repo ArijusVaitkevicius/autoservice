@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'autoservice.apps.AutoserviceConfig',
     'tinymce',
     'crispy_forms',
+    'extra_views',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

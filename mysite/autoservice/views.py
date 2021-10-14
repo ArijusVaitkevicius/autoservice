@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, reverse
+from extra_views import InlineFormSetFactory, CreateWithInlinesView, UpdateWithInlinesView
+
 from .models import CarModel, Car, Order, OrderLine, Service
 from django.views import generic
 from django.core.paginator import Paginator
@@ -92,8 +94,14 @@ class OrdersByUserListView(LoginRequiredMixin, generic.ListView):
         return Order.objects.filter(client=self.request.user).order_by('due_back')
 
 
-class OrderByUserCreateView(LoginRequiredMixin, generic.CreateView):
+class OrderInline(InlineFormSetFactory):
+    model = OrderLine
+    fields = ['service', 'qty']
+
+
+class OrderByUserCreateView(LoginRequiredMixin, CreateWithInlinesView):
     model = Order
+    inlines = [OrderInline, ]
     fields = ['car', 'due_back']
     success_url = "/autoservice/orders/"
     template_name = 'order_form.html'
@@ -103,8 +111,9 @@ class OrderByUserCreateView(LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
 
 
-class OrderByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+class OrderByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateWithInlinesView):
     model = Order
+    inlines = [OrderInline, ]
     fields = ['car', 'due_back']
     success_url = "/autoservice/myorders/"
     template_name = 'order_form.html'

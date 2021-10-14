@@ -7,7 +7,25 @@
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">New order</legend>
             {{ form|crispy }}
+            <br>
+            <hr>
+            <div class="extra-form">
+            {% for form in inlines %}
+                {{ form|crispy }}
+            {% endfor %}
+            </div>
         </fieldset>
+<!--         <div style="margin-left:20px;margin-top:20px">-->
+<!--            <h4>Services:</h4>-->
+<!--            {% for orderline in order.lines.all %}-->
+<!--              <hr>-->
+<!--              <p class="text-muted"><strong> Service: {{ orderline.service }} ({{ orderline.service.price }}) </strong> - {{orderline.qty}}, SUM: {{orderline.line_total}}</p>-->
+<!--            {% endfor %}-->
+<!--         </div>-->
+<!--            <hr>-->
+<!--            <p>-->
+<!--                TOTAL: {{ order.total }}-->
+<!--            </p>-->
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Save</button>
         </div>
