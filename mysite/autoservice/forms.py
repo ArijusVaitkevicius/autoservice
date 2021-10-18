@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class OrderCommentForm(forms.ModelForm):
     class Meta:
         model = OrderComment
-        fields = ('content', 'order', 'commentator')
+        fields = ['content', 'order', 'commentator']
         widgets = {'order': forms.HiddenInput(), 'commentator': forms.HiddenInput()}
 
 

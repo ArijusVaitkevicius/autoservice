@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 
 {% if form.errors %}
-  <p>Login error, please try again!</p>
+  <p>{% trans "Login error, please try again!" %}</p>
 {% endif %}
 
 {% if next %}
   {% if user.is_authenticated %}
-    <p>You need to login to perform this operation.</p>
+    <p>{% trans "You need to login to perform this operation." %}</p>
   {% endif %}
 {% endif %}
 
@@ -16,18 +16,18 @@
   {% csrf_token %}
     <table>
       <tr>
-        <td>Username: </td>
+        <td>{% trans "Username" %}: </td>
         <td>{{ form.username }}</td>
       </tr>
       <tr>
-        <td>Password: </td>
+        <td>{% trans "Password" %}: </td>
         <td>{{ form.password }}</td>
       </tr>
     </table>
-    <input type="submit" value="Login" />
+    <input type="submit" value="{% blocktrans %}Login{% endblocktrans %}" />
     <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
-<a href="{% url 'password_reset' %}">Forgot your password?</a>
+<a href="{% url 'password_reset' %}">{% trans "Forgot your password?" %}</a>
 
 {% endblock %}

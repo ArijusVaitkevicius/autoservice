@@ -1,27 +1,27 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 <h1>{{ order.car.owner }}</h1>
 <hr>
 
     <div class="container car">
-        <h1><strong>Car: </strong>{{ order.car }}</h1>
-        <h1><strong>Due date: </strong>{{ order.due_back }}</h1>
+        <h1><strong>{% trans "Car" %}: </strong>{{ order.car }}</h1>
+        <h1><strong>{% trans "Due date" %}: </strong>{{ order.due_back }}</h1>
     </div>
 
   <div style="margin-left:20px;margin-top:20px">
-    <h4>Services:</h4>
+    <h4>{% trans "Services" %}:</h4>
     {% for orderline in order.lines.all %}
       <hr>
-      <p class="text-muted"><strong> Service: {{ orderline.service }} ({{ orderline.service.price }}) </strong> - {{orderline.qty}}, SUM: {{orderline.line_total}}</p>
+      <p class="text-muted"><strong>{% trans "Service" %}: {{ orderline.service }} ({{ orderline.service.price }}) </strong> - {{orderline.qty}}, SUM: {{orderline.line_total}}</p>
     {% endfor %}
   </div>
     <hr>
     <p>
-        TOTAL: {{ order.total }}
+        {% trans "TOTAL" %}: {{ order.total }}
     </p>
 <hr>
-<h4>Comments:</h4>
+<h4>{% trans "Comments:" %}</h4>
 {% if order.comments.all %}
     {% for com in order.comments.all %}
       <hr>
@@ -29,16 +29,16 @@
       <p>{{ com.content }}</p>
     {% endfor %}
 {% else %}
-<p>The order has no comments.</p>
+<p>{% trans "The order has no comments." %}</p>
 {% endif %}
 {% if user.is_authenticated %}
   <div class="fieldWrapper">
     <hr><br>
-    <h4>Write a comment...</h4>
+    <h4>{% trans "Write a comment..." %}</h4>
     <form action="" method="post">
       {% csrf_token %}
       {{ form.content }}<br>
-      <input type="submit" value="Save">
+      <input type="submit" value="{% blocktrans %}Save{% endblocktrans %}">
     </form>
   </div>
   {% endif %}

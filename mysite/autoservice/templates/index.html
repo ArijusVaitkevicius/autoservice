@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
-    <h1>Welcome to Autoservice!</h1>
+    <h1>{% trans "Welcome to Autoservice!" %}</h1>
     <br>
-    <h3>Autoservice statistics:</h3>
+    <h3>{% trans "Autoservice statistics:" %}</h3>
     <ul>
-    <li><strong>Services: </strong>{{ num_services }}</li>
-    <li><strong>Active status: </strong>{{ num_status }}</li>
-    <li><strong>Cars: </strong>{{ num_cars }}</li>
-    <li><strong>You are visiting here for the </strong>{{ num_visits }}<strong> time</strong></li>
+    <li><strong>{% trans "Services" %}: </strong>{{ num_services }}</li>
+    <li><strong>{% trans "Active status" %}: </strong>{{ num_status }}</li>
+    <li><strong>{% trans "Cars" %}: </strong>{{ num_cars }}</li>
+    <li><strong>{% trans "You are visiting here for the " %}</strong>{{ num_visits }}<strong>{% trans " time" %}</strong></li>
     </ul>
 {% endblock %}

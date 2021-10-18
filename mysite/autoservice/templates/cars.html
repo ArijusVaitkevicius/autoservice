@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 {% load static %}
 <section style="max-height: 80vh;">
-    <h1>All cars in our service</h1>
+    <h1>{% trans "All cars in our service" %}</h1>
     <div style="display: flex;">
         {% for car in cars %}
             <div class="card mb-4 shadow-sm" style="height: 40%; width: 40%; text-align: center; margin: 10px; min-height: 495px">

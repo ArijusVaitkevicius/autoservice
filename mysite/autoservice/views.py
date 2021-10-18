@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, reverse
 from extra_views import InlineFormSetFactory, CreateWithInlinesView, UpdateWithInlinesView
-
 from .models import CarModel, Car, Order, OrderLine, Service
 from django.views import generic
 from django.core.paginator import Paginator
@@ -13,13 +12,14 @@ from django.contrib import messages
 from .forms import OrderCommentForm, UserUpdateForm, ProfileUpdateForm
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
+from inspect import currentframe
 
 
 def index(request):
     num_services = Service.objects.count()
     num_status = Order.objects.filter(status__exact='a').count()
     num_cars = Car.objects.count()
-
     num_visits = request.session.get('num_visits', 1)
     request.session['num_visits'] = num_visits + 1
 
@@ -151,6 +151,10 @@ def search(request):
     return render(request, 'search.html', {'cars': search_results, 'query': query})
 
 
+def f(s):
+    frame = currentframe().f_back
+    return eval(f"f'{s}'", frame.f_locals, frame.f_globals)
+
 @csrf_protect
 def register(request):
     if request.method == "POST":
@@ -163,18 +167,18 @@ def register(request):
         if password == password2:
             # tikriname, ar neužimtas username
             if User.objects.filter(username=username).exists():
-                messages.error(request, f'Username {username} is already in use!')
+                messages.error(request, f(_('Username {username} is already in use!')))
                 return redirect('register')
             else:
                 # tikriname, ar nėra tokio pat email
                 if User.objects.filter(email=email).exists():
-                    messages.error(request, f'Email {email} is already in use!')
+                    messages.error(request, f(_('Email {email} is already in use!')))
                     return redirect('register')
                 else:
                     # jeigu viskas tvarkoje, sukuriame naują vartotoją
                     User.objects.create_user(username=username, email=email, password=password)
         else:
-            messages.error(request, 'Passwords do not match!')
+            messages.error(request, _('Passwords do not match!'))
             return redirect('register')
     return render(request, 'register.html')
 
